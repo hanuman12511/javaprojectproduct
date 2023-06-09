@@ -1,0 +1,26 @@
+
+  create table userInfo( user_id int AUTO_INCREMENT PRIMARY key, username char(100),userpass char(100),first_name char(100),last_name char(100),telephone char(10),created_at date, modified_at date);
+ 
+ create table user_paymet(payment_id int AUTO_INCREMENT PRIMARY key,user_id int, payment_type char(100), provider char(100), account_no char(16), expiry date,FOREIGN KEY (user_id) REFERENCES userInfo(user_id) );
+
+ create table user_address(user_add_id int AUTO_INCREMENT PRIMARY key,user_id int, address_line1 text,address_line2 text,  city char(50),  postal_city int, country char(50), telephone char(10) , mobile char(10),FOREIGN KEY (user_id) REFERENCES userInfo(user_id) ) ;
+/* s */
+
+
+ create table product_category(category_id int AUTO_INCREMENT PRIMARY key, pro_cate_name char(100), pro_cate_desc text, created_at date, modified_at date, deleted_at date);
+
+create table product_inventory( inventory_id int AUTO_INCREMENT PRIMARY key, product_id int,quantity int, created_at date, modified_at date, deleted_at date,FOREIGN KEY (product_id) REFERENCES product_name(product_id));
+
+create table product_discount(discount_id int AUTO_INCREMENT PRIMARY key, name char(100), prod_disc_desc text, discount_percent int, active char(10), created_at date, modified_at date, deleted_at date);
+
+create table product_name(product_id int AUTO_INCREMENT PRIMARY key, product_name char(100), product_desc text, SKU char(10),category_id int,price int, discount_id int, created_at date, modified_ad date, deleted_at date,FOREIGN KEY (category_id) REFERENCES product_category(category_id),FOREIGN KEY (discount_id) REFERENCES product_discount(discount_id));
+
+create table payment_detail(payment_id int AUTO_INCREMENT PRIMARY key, order_id int,  amount int,  provider char(100), pay_status char(100),  created_at date, modified_at date);
+
+ create table order_details(order_id int AUTO_INCREMENT PRIMARY key, user_id int,  total int,  payment_id int,   created_id date, modified_at date, FOREIGN KEY (user_id) REFERENCES userInfo(user_id),FOREIGN KEY (payment_id) REFERENCES payment_detail(payment_id));
+ 
+CREATE table order_items(id int AUTO_INCREMENT PRIMARY key, order_id int , product_id int,  quantity int,  created_at date, modified_at date,FOREIGN KEY (order_id) REFERENCES order_details(order_id),FOREIGN KEY (product_id) REFERENCES product(product_id));
+
+create table shopping_session (session_id int AUTO_INCREMENT PRIMARY key,  user_id int,  total int,  created_at date,  modified_at date,FOREIGN KEY (user_id) REFERENCES userInfo(user_id));
+
+create table card_item(cart_id int AUTO_INCREMENT PRIMARY key, session_id int,  product_id int,  quantity int,  created_at date,  modified_at date ,FOREIGN KEY (product_id) REFERENCES product_name(product_id),FOREIGN KEY (session_id) REFERENCES shopping_session (session_id));
