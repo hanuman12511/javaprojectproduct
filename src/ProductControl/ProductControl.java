@@ -1,6 +1,9 @@
 package ProductControl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import AdminDAO.Admindao;
 import AdminDAO.Product_Cate;
@@ -32,6 +35,29 @@ public class ProductControl {
         
         return false;
     }
+    public  void ProductCateShow() {
+    	try {
+    		Connection com = con.ConnectionData(db);
+        	Statement stmt =com.createStatement();
+        	 ResultSet rs = stmt.executeQuery("select *from "+productcate);
+             while(rs.next()) {
+             System.out.print(rs.getString(1));
+             System.out.print(rs.getString(2));
+             System.out.println();
+       }
+             
+    	
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.print(e);
+		}
+    	  
+    	
+    	
+    }
+        
+    
     public boolean ProductName(Admindao admindao) {
         // UserDAO dao = new UserDAO();
         try {

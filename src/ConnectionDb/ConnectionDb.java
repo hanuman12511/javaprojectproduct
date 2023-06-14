@@ -9,7 +9,7 @@ public class ConnectionDb {
           Class.forName("com.mysql.cj.jdbc.Driver");
           String url ="jdbc:mysql://localhost:3307/"+db;
           con = DriverManager.getConnection(url,"root","root");
-          System.out.print("conecction success="+con);
+        //  System.out.print("conecction success="+con);
       }catch(Exception e){
           System.out.println("connection  Error==="+e);
       }
