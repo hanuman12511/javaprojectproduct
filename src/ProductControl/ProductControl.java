@@ -35,6 +35,47 @@ public class ProductControl {
         
         return false;
     }
+    
+    
+    public boolean ProductCateUpdate(Product_Cate pcate) {
+        // UserDAO dao = new UserDAO();
+    
+        try {
+        	Connection com = con.ConnectionData(db);
+        	
+        	Statement stmt =com.createStatement();
+        	ResultSet rs = stmt.executeQuery("select *from "+productcate +" where  category_id = "+pcate.getProCateId());
+             while(rs.next()) {
+             
+            	 if(pcate.getProCateName().equals("")) {
+            		 pcate.setName(rs.getString(1));
+            		 
+            	 }
+            	 if(pcate.getProCateDesc().equals("")) {
+            		 pcate.setDesc(rs.getString(2));
+            	 }
+            	 System.out.print(rs.getString(1));
+             System.out.print(rs.getString(2));
+             System.out.println();
+             }
+             
+             
+               PreparedStatement ps =com.prepareStatement("update "+ productcate+" set pro_cate_name =?, pro_cate_desc=? where category_id=? ");
+               ps.setString(1, pcate.getProCateName());
+               ps.setString(2, pcate.getProCateDesc());
+               ps.setInt(3, pcate.getProCateId());
+             
+               int i = ps.executeUpdate();
+               if(i==1){
+                     return true;
+                }
+             } catch (Exception e) {
+            System.out.println(""+e);
+        }
+        
+        return false;
+    }
+    
     public  void ProductCateShow() {
     	try {
     		Connection com = con.ConnectionData(db);
@@ -43,6 +84,8 @@ public class ProductControl {
              while(rs.next()) {
              System.out.print(rs.getString(1));
              System.out.print(rs.getString(2));
+
+             System.out.print(rs.getString(3));
              System.out.println();
        }
              
@@ -57,6 +100,25 @@ public class ProductControl {
     	
     }
         
+    
+    public boolean  ProductCateDelete(int id) {
+    	try {
+
+        	Connection com = con.ConnectionData(db);
+        	Statement stmt =com.createStatement();
+        	 int i = stmt.executeUpdate("delete from "+ productcate +" where category_id= "+id);
+        	
+        	 if(i==1) {
+        		 return true;
+        	 }
+        		
+		} catch (Exception e) {
+			
+			 System.out.print("=="+e);
+		       	// TODO: handle exception
+		}
+    	return false;
+    }
     
     public boolean ProductName(Admindao admindao) {
         // UserDAO dao = new UserDAO();
